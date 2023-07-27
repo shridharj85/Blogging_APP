@@ -64,7 +64,7 @@ app.get('/profile',(req,res)=>{
 
 
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8000;
 const start = async () => {
     try {
       await connectDB(process.env.MONGO_URI);

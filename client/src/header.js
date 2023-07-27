@@ -5,7 +5,7 @@ export default function Header(){
   const [username,setUsername] = useState(null);
     
       useEffect(()=>{
-        fetch('http://localhost:8080/profile',{
+        fetch('http://localhost:8000/profile',{
           credentials:'include',
         }).then(response=>{
           response.json().then(userInfo=>{
