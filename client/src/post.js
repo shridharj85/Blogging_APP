@@ -1,18 +1,25 @@
-export default function post(){
+import {formatISO9075} from "date-fns"
+import { Link } from "react-router-dom";
+export default function post({_id,title,summary,cover,content,createdAt,author}){
     return(
         <div className="post">
       <div className="image">
-        <img src="https://techcrunch.com/wp-content/uploads/2023/05/GettyImages-1256069284.jpg?w=1390&crop=1"/> 
+        <Link to={`/post/${_id}`}>
 
+        <img src={'http://localhost:8000/'+cover}/> 
+        </Link>
+        
         </div>
         <div className="texts">
+        <Link to={`/post/${_id}`}>
+        <h2>{title}</h2>
 
-        <h2>OpenAI’s ChatGPT app can now search the web — but only via Bing</h2>
+        </Link>
         <p className="info">
-          <a className="author">Shridhar</a>
-          <time>2023-06-28</time>
+          <a className="author">{author.username}</a>
+          <time>{formatISO9075(new Date( createdAt))}</time>
         </p>
-        <p className="summary">Today, OpenAI announced that subscribers to ChatGPT Plus, the premium version of the company’s AI-powered chatbot, can use a new feature on the ChatGPT app called Browsing to have ChatGPT search Bing for answers to questions.</p>
+        <p className="summary">{summary}</p>
         </div>
       </div>
     );
