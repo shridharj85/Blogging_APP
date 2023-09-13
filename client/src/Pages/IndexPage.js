@@ -8,13 +8,15 @@ export default function IndexPage(){
             response.json().then(posts=>{
                 setPosts(posts);
             })
+        }).catch(err=>{
+            console.log("post retrieval failed");
         })
     },[])
 return( 
     <>
-    {posts.length>0 && posts.map(post=>(
+    {posts.length>0 && posts.map((post,index)=>(
         
-        <Post {...post}/>
+        <Post key={index} {...post}/>
     ))}
     </>
 );

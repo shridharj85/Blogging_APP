@@ -19,7 +19,7 @@ app.use(cookieParser());
 app.use('/uploads',express.static(__dirname+'/uploads'))
 
 let salt =  bcrypt.genSaltSync(10);
-const secret = 'ahksbvkaYvgbCBIWYVC78T19E5T';
+const secret = process.env.SECRET_KEY;
 
 app.post('/register',async (req,res)=>{
     try {
@@ -39,6 +39,7 @@ app.post('/register',async (req,res)=>{
 
 
 app.post('/login',async(req,res)=>{
+  //console.log(req.body);
   const {username,password} = req.body;
   try{
   const userDoc = await user.findOne({username});
@@ -51,7 +52,7 @@ app.post('/login',async(req,res)=>{
     jwt.sign({username,id:userDoc._id},secret,{},(err,token)=>{
       if(err) throw err;
       else{
-        res.cookie('token', token).json({
+        res.cookie('token', token,{secure:true, httpOnly:true}).json({
           id:userDoc._id,
           username
         });
@@ -69,13 +70,16 @@ catch(err){
 
 app.get('/profile',(req,res)=>{
   const {token} = req.cookies;
-  
-  jwt.verify(token,secret,{},(err,info)=>{
-    if(err)throw err;
-    else{
-      res.json(info);
-    }
-  })
+  if(!token)res.status(200).json({});
+  else{
+    jwt.verify(token,secret,{},(err,info)=>{
+      if(err)throw err;
+      else{
+        res.json(info);
+      }
+    })
+
+  }
   //res.json(req.cookies);
 })
 
@@ -107,9 +111,6 @@ app.post('/post',uploadMiddleware.single('file'),async (req,res)=>{
       
     }
   })
-  
-  
-
 
 })
 

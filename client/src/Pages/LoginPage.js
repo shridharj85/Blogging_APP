@@ -10,7 +10,7 @@ export default function LoginPage(){
         ev.preventDefault();
         const response =  await fetch('http://localhost:8000/login',{
             method:'POST',
-            body:JSON.stringify({username,password}),
+            body:JSON.stringify({username:username,password:password}),
             headers:{'Content-Type':'application/json'},
             credentials:'include',
         })
